@@ -27,8 +27,8 @@ VIDEO_MAP = {
     "medium_001": 18,
     "medium_002": 19,
     "medium_003": 20,
-    "advance_001": 21,
-    "advance_002": 22
+    "advance_001": 22,
+    "advance_002": 21
 }
 
 FREE_BASIC_LIMIT = 13  # topik 1–13 free
