@@ -109,19 +109,19 @@ VIDEO_MAP = {
     "basic_011": 15,
     "basic_012": 16,
     "basic_013": 17,
-    "medium_001": 18,
-    "medium_002": 19,
-    "medium_003": 20,
-    "advance_001": 22,
-    "advance_002": 21
+    "intermediate_001": 18,
+    "intermediate_002": 19,
+    "intermediate_003": 20,
+    "advanced_001": 22,
+    "advanced_002": 21
 }
 
 FREE_BASIC_LIMIT = 13  # topik 1–13 free
 
 VIDEO_LIST = {
     "basic": list(range(1, 30)),     # basic_001 → basic_029 (contoh)
-    "medium": list(range(1, 20)),
-    "advance": list(range(1, 15))
+    "intermediate": list(range(1, 20)),
+    "advanced": list(range(1, 15))
 }
 
 USER_STATE = {}
