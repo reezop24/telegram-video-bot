@@ -3,7 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 import json
 
 VIP_USERS = {
-    123456789,  # <-- user_id kau
+    627116869,  # <-- user_id kau
 }
 
 
