@@ -2,6 +2,11 @@ from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 import json
 
+VIP_USERS = {
+    123456789,  # <-- user_id kau
+}
+
+
 TOKEN = "8571888421:AAH8WDtaarglaEIlEwjlvg87mAKnfCMNKwM"
 VIDEO_CHANNEL_ID = -1003809328917  # tukar ikut channel kau
 
@@ -44,6 +49,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["📝 Request"],
         ["💳 Langganan"]
     ]
+    
+async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    await update.message.reply_text(
+        f"👤 User ID kamu:\n\n{user.id}"
+    )
 
     await update.message.reply_text(
         "Selamat datang 👋\nSila pilih menu:",
@@ -108,7 +119,8 @@ async def webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     video_id = data["video_id"]    # contoh basic_001
     index = int(video_id.split("_")[-1]) - 1  # basic_014 -> index 13
 
-    is_subscriber = False  # nanti kita upgrade
+    is_subscriber = user_id in VIP_USERS
+
 
     # 🔒 ACCESS CHECK
     if not can_access(level, index, is_subscriber):
@@ -248,6 +260,8 @@ app.add_handler(CommandHandler("start", start))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, premium_menu))
 app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, webapp_data))
 app.add_handler(CallbackQueryHandler(navigation))
+app.add_handler(CommandHandler("myid", myid))
+
 
 
 app.run_polling()
