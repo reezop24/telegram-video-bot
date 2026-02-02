@@ -1,6 +1,91 @@
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 import json
+import sqlite3
+from datetime import datetime, timedelta
+
+DB_PATH = "vip.db"
+
+def get_db():
+    return sqlite3.connect(DB_PATH)
+
+def init_db():
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS vip_users (
+            user_id INTEGER PRIMARY KEY,
+            approved_at TEXT,
+            expire_at TEXT,
+            source TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def is_vip(user_id: int) -> bool:
+    conn = get_db()
+    c = conn.cursor()
+    c.execute(
+        "SELECT expire_at FROM vip_users WHERE user_id=?",
+        (user_id,)
+    )
+    row = c.fetchone()
+    conn.close()
+
+    if not row:
+        return False
+
+    expire_at = datetime.fromisoformat(row[0])
+    return expire_at > datetime.now()
+
+
+def add_vip(user_id: int, days: int, source="manual"):
+    now = datetime.now()
+    expire = now + timedelta(days=days)
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO vip_users (user_id, approved_at, expire_at, source)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET
+            approved_at=excluded.approved_at,
+            expire_at=excluded.expire_at,
+            source=excluded.source
+    """, (
+        user_id,
+        now.isoformat(),
+        expire.isoformat(),
+        source
+    ))
+    conn.commit()
+    conn.close()
+
+
+def remove_vip(user_id: int):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute(
+        "DELETE FROM vip_users WHERE user_id=?",
+        (user_id,)
+    )
+    conn.commit()
+    conn.close()
+
+
+def vip_expiry(user_id: int):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute(
+        "SELECT expire_at FROM vip_users WHERE user_id=?",
+        (user_id,)
+    )
+    row = c.fetchone()
+    conn.close()
+
+    return row[0] if row else None
+
 
 VIP_USERS = {
     627116869,  # <-- user_id kau
@@ -118,7 +203,8 @@ async def webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     video_id = data["video_id"]    # contoh basic_001
     index = int(video_id.split("_")[-1]) - 1  # basic_014 -> index 13
 
-    is_subscriber = user_id in VIP_USERS
+    is_subscriber = is_vip(user_id)
+
 
 
     # 🔒 ACCESS CHECK
@@ -262,6 +348,5 @@ app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, webapp_data))
 app.add_handler(CallbackQueryHandler(navigation))
 
 
-
-
+init_db()
 app.run_polling()
