@@ -6,9 +6,19 @@ TOKEN = "8571888421:AAH8WDtaarglaEIlEwjlvg87mAKnfCMNKwM"
 VIDEO_CHANNEL_ID = -1003809328917  # tukar ikut channel kau
 
 VIDEO_MAP = {
-    "basic_001": 2,
-    "basic_002": 3,
-    "basic_003": 4
+    "basic_001": 5,
+    "basic_002": 6,
+    "basic_003": 7,
+    "basic_004": 8,
+    "basic_005": 9,
+    "basic_006": 10,
+    "basic_007": 11,
+    "basic_008": 12,
+    "basic_009": 13,
+    "basic_010": 14,
+    "basic_011": 15,
+    "basic_012": 16,
+    "basic_013": 17,
 }
 
 FREE_BASIC_LIMIT = 13  # topik 1–13 free
