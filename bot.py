@@ -148,37 +148,6 @@ async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def premium_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
-    # === BACK UNIVERSAL ===
-if text == "⬅ Back":
-    await start(update, context)
-    return
-
-        # === SUB MENU LANGGANAN ===
-    if text == "💳 Langganan":
-        keyboard = [
-            ["💰 Buat Bayaran"],
-            ["🤝 Follow IB"],
-            ["⬅ Back"]
-        ]
-
-        if text == "💰 Buat Bayaran":
-    await update.message.reply_text(
-        "💰 Pembayaran akan dibuat melalui Mini App.\n(Step seterusnya kita sambung)"
-    )
-    return
-
-if text == "🤝 Follow IB":
-    await update.message.reply_text(
-        "🤝 Follow IB akan dibuat melalui Mini App / landing page.\n(Step seterusnya kita sambung)"
-    )
-    return
-
-        await update.message.reply_text(
-            "Sila pilih cara melanggan:",
-            reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-        )
-        return
-
 
     if text == "🎓 Premium Education Videos":
         keyboard = [
