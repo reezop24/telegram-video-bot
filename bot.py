@@ -50,17 +50,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ["💳 Langganan"]
     ]
     
-async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.effective_user
-    await update.message.reply_text(
-        f"👤 User ID kamu:\n\n{user.id}"
-    )
-
     await update.message.reply_text(
         "Selamat datang 👋\nSila pilih menu:",
         reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
+async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    await update.message.reply_text(
+        f"👤 User ID kamu:\n\n{user.id}"
+    )
 
 async def premium_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
@@ -257,10 +256,11 @@ async def navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("myid", myid))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, premium_menu))
 app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, webapp_data))
 app.add_handler(CallbackQueryHandler(navigation))
-app.add_handler(CommandHandler("myid", myid))
+
 
 
 
