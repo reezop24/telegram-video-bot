@@ -149,6 +149,38 @@ async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def premium_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
 
+        if text == "💳 Langganan":
+        await update.message.reply_text(
+            "💳 *Langganan VIP*\n\n"
+            "Sila pilih salah satu cara melanggan di bawah:",
+            reply_markup=ReplyKeyboardMarkup(
+                LANGGANAN_MENU,
+                resize_keyboard=True
+            ),
+            parse_mode="Markdown"
+        )
+        return
+
+    elif text == "💎 RM280 – 365 Hari Akses (Free Renew)":
+        await update.message.reply_text(
+            "💎 *365 Hari Akses VIP*\n\n"
+            "Anda akan dibawa ke Mini App untuk pendaftaran.\n\n"
+            "_Mini App akan disambungkan kemudian._",
+            parse_mode="Markdown"
+        )
+        return
+
+    elif text == "📈 Pendaftaran AMarkets":
+        await update.message.reply_text(
+            "📈 *Pendaftaran AMarkets*\n\n"
+            "Anda akan dibawa ke Mini App pendaftaran broker.\n\n"
+            "_Mini App akan disambungkan kemudian._",
+            parse_mode="Markdown"
+        )
+        return
+
+
+
     if text == "🎓 Premium Education Videos":
         keyboard = [
             ["Basic"],
@@ -308,8 +340,8 @@ async def navigation(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         keyboard = [
             ["Basic"],
-            ["Medium"],
-            ["Advance"],
+            ["Intermediate"],
+            ["Advanced"],
             ["⬅ Back"]
         ]
 
